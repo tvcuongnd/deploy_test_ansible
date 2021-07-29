@@ -19,6 +19,7 @@
       ansible.builtin.unarchive:
         src: /root/test/my-app.zip
         dest: /root/test
+        remote_src: yes
       when: regis_artifact.changed
       register: regis_unzip
 
