@@ -1,0 +1,26 @@
+---
+- hosts: server_deploy
+  become: yes
+  tasks:
+    - name: Download an artifact.zip from a private repository requiring authentication
+      community.general.maven_artifact:
+        group_id: com.mycompany.app
+        artifact_id: my-app
+        version: '{{ version }}'
+        extension : "zip"
+        repository_url: 'http://k8s.lab:8081/repository/maven-releases/'
+        username: "cuongtvb"
+        password: "123abc@A"
+        verify_checksum: always
+        dest: /root/test
+      register: regis_artifact
+
+    - name: Giai nen file da download ve
+      ansible.builtin.unarchive:
+        src: /root/test/my-app.zip
+        dest: /root/test
+      when: regis_artifact.changed
+      register: regis_unzip
+
+    - name: running file artifact
+      shell: /usr/bin/java -jar /root/test/my-app-{{ version }}.jar >> /root/test/test.log
