@@ -9,8 +9,8 @@
         version: '{{ version }}'
         extension : "zip"
         repository_url: 'http://k8s.lab:8081/repository/maven-releases/'
-        username: "cuongtvb"
-        password: "123abc@A"
+        username: {{ username_repo }}
+        password: {{ password_repo }}
         verify_checksum: always
         dest: /root/test
       register: regis_artifact
